@@ -1,0 +1,27 @@
+{
+  "name": "audio-player",
+  "source": "src/index.html",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "parcel",
+    "build": "rm -rf dist .parcel-cache && parcel build"
+  },
+  "dependencies": {
+    "jsx-dom-runtime": "^0.60.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  },
+  "targets": {
+    "default": {
+      "sourceMap": false,
+      "publicUrl": " /audio-player/"
+    }
+  },
+  "author": {
+    "name": "Alexander Zaytsev",
+    "email": "zaytsev126@gmail.com",
+    "url": "https://x.com/_shoonia"
+  },
+  "license": "MIT"
+}
