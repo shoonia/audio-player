@@ -12,20 +12,26 @@ const enum LABEL {
 export const Player: JSX.FC = () => {
   const t = toHHMMSS(0)
 
-  const button = useRef<HTMLButtonElement>();
   const [label, setLabel] = useText(LABEL.PLAY);
   const [duration, setDuration] = useText(t);
   const [progress, setProgress] = useText(t);
 
-  const ready: RefCallback<HTMLAudioElement> = (audio) => {
+  const ready: RefCallback<HTMLButtonElement> = (button) => {
+    const audio = new Audio();
+
     let i: number;
 
     const setTime = () => {
-      const i = ~~audio.currentTime
+      const c = ~~audio.currentTime;
 
-      setProgress(toHHMMSS(i));
-      dispatch('set/time', i);
+      setProgress(toHHMMSS(c));
+      dispatch('set/time', c);
     };
+
+    button.addEventListener('click', () => {
+      if (audio.paused) audio.play();
+      else audio.pause();
+    });
 
     audio.addEventListener('play', () => {
       i = setInterval(setTime, 1000);
@@ -39,32 +45,24 @@ export const Player: JSX.FC = () => {
     });
 
     audio.addEventListener('canplay', () => {
-      button.current.disabled = false;
+      button.disabled = false;
       setLabel(LABEL.PLAY);
       setDuration(toHHMMSS(~~audio.duration));
     });
 
     connect('url', (state) => {
+      button.disabled = true;
       audio.src = state.url;
       audio.currentTime = state.time;
-    });
-
-    const off = connect(() => {
-      off();
-      button.current.addEventListener('click', () => {
-        if (audio.paused) audio.play();
-        else audio.pause();
-      });
     });
   };
 
   return (
     <>
       <div class={_time}>
-        <audio ref={ready} preload="metadata" />
         <strong>{duration}</strong> / {progress}
       </div>
-      <button ref={button} class={_btn} type="button" disabled>
+      <button ref={ready} class={_btn} type="button" disabled>
         {label}
       </button>
     </>

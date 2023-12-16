@@ -7,7 +7,7 @@ export const Input: JSX.FC = () => {
   const input = useRef<HTMLInputElement>();
 
   const clickHandler: EventListener = () =>
-    dispatch('set/url', input.current.value);
+    dispatch('set/url', input.current.value.trim());
 
   connect('url', (state) => {
     input.current.value = state.url;
