@@ -28,6 +28,7 @@ export const Player: JSX.FC = () => {
     <div>
       <audio
         ref={ready}
+        preload="metadata"
         controls
       />
     </div>

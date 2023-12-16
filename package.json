@@ -13,7 +13,6 @@
     "storeon-velo": "^5.0.0-beta.0"
   },
   "devDependencies": {
-    "@types/css-modules": "^1.0.5",
     "mini-css-class-name": "^0.15.0",
     "parcel": "^2.10.3",
     "postcss": "^8.4.32",

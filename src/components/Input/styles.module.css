@@ -1,0 +1,29 @@
+._box {
+  display: flex;
+  align-items: end;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+._label {
+  width: 100%;
+}
+
+._url {
+  width: -webkit-fill-available;
+  padding: 0 1em;
+  height: 2.5em;
+  font-size: 1em;
+  border: 1px solid #000;
+}
+
+._btn {
+  width: max-content;
+  width: 2.5em;
+  height: 2.5em;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+}
