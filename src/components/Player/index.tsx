@@ -48,12 +48,15 @@ export const Player: JSX.FC = () => {
       button.disabled = false;
       setLabel(LABEL.PLAY);
       setDuration(toHHMMSS(~~audio.duration));
+      setProgress(toHHMMSS(~~audio.currentTime));
     });
 
     connect('url', (state) => {
       button.disabled = true;
       audio.src = state.url;
       audio.currentTime = state.time;
+      setDuration(t);
+      setProgress(t);
     });
   };
 
