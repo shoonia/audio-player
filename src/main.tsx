@@ -1,1 +1,3 @@
-document.body.append(<h1>Hello</h1>)
+import { App } from './components/App';
+
+document.body.append(<App />);
