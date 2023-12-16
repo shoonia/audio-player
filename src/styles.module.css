@@ -7,3 +7,8 @@
   display: flex;
   min-height: 100vh;
 }
+
+:global(button) {
+  font-size: 1em;
+  border: 1px solid #000;
+}
