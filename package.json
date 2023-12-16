@@ -1,6 +1,7 @@
 {
   "name": "audio-player",
   "source": "src/index.html",
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
     "start": "parcel",
@@ -12,7 +13,11 @@
     "storeon-velo": "^5.0.0-beta.0"
   },
   "devDependencies": {
+    "@types/css-modules": "^1.0.5",
+    "mini-css-class-name": "^0.15.0",
     "parcel": "^2.10.3",
+    "postcss": "^8.4.32",
+    "postcss-modules": "^4.3.1",
     "typescript": "^5.3.3"
   },
   "targets": {
