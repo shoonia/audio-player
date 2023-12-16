@@ -1,5 +1,8 @@
-._audio {
+._time {
   margin: 1em 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.2em;
 }
 
 ._btn {

@@ -1,7 +1,8 @@
 import { type RefCallback, useRef, useText } from 'jsx-dom-runtime';
 
-import { _audio, _btn } from './styles.module.css';
+import { _time, _btn } from './styles.module.css';
 import { connect, dispatch } from '../../store';
+import { toHHMMSS } from './utils';
 
 const enum LABEL {
   PLAY = 'Play',
@@ -9,14 +10,22 @@ const enum LABEL {
 }
 
 export const Player: JSX.FC = () => {
-  const [label, setLabel] = useText(LABEL.PLAY);
+  const t = toHHMMSS(0)
+
   const button = useRef<HTMLButtonElement>();
+  const [label, setLabel] = useText(LABEL.PLAY);
+  const [duration, setDuration] = useText(t);
+  const [progress, setProgress] = useText(t);
 
   const ready: RefCallback<HTMLAudioElement> = (audio) => {
     let i: number;
 
-    const setTime = () =>
-      dispatch('set/time', ~~audio.currentTime);
+    const setTime = () => {
+      const i = ~~audio.currentTime
+
+      setProgress(toHHMMSS(i));
+      dispatch('set/time', i);
+    };
 
     audio.addEventListener('play', () => {
       i = setInterval(setTime, 1000);
@@ -32,6 +41,7 @@ export const Player: JSX.FC = () => {
     audio.addEventListener('canplay', () => {
       button.current.disabled = false;
       setLabel(LABEL.PLAY);
+      setDuration(toHHMMSS(~~audio.duration));
     });
 
     connect('url', (state) => {
@@ -39,31 +49,24 @@ export const Player: JSX.FC = () => {
       audio.currentTime = state.time;
     });
 
-
-    const disconnect = connect(() => {
+    const off = connect(() => {
+      off();
       button.current.addEventListener('click', () => {
         if (audio.paused) audio.play();
         else audio.pause();
       });
-
-      disconnect();
     });
-  }
+  };
 
   return (
-    <div>
-      <audio
-        ref={ready}
-        class={_audio}
-        preload="metadata"
-        controls
-        controlsList="nodownload"
-      />
-      <div>
-        <button ref={button} class={_btn} type="button" disabled>
-          {label}
-        </button>
+    <>
+      <div class={_time}>
+        <audio ref={ready} preload="metadata" />
+        <strong>{duration}</strong> / {progress}
       </div>
-    </div>
-  )
+      <button ref={button} class={_btn} type="button" disabled>
+        {label}
+      </button>
+    </>
+  );
 }
