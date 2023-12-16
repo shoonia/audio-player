@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel",
     "build": "rm -rf dist .parcel-cache && parcel build",
-    "serve": "python3 -m http.server -d dist"
+    "serve": "python3 -m http.server -d dist",
+    "deploy": "npx gh-pages -d dist"
   },
   "dependencies": {
     "jsx-dom-runtime": "^0.60.0",
@@ -21,7 +22,8 @@
   },
   "targets": {
     "default": {
-      "sourceMap": false
+      "sourceMap": false,
+      "publicUrl": "/audio-player/"
     }
   },
   "author": {
