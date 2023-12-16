@@ -4,18 +4,20 @@
   "version": "1.0.0",
   "scripts": {
     "start": "parcel",
-    "build": "rm -rf dist .parcel-cache && parcel build"
+    "build": "rm -rf dist .parcel-cache && parcel build",
+    "serve": "python3 -m http.server -d dist"
   },
   "dependencies": {
-    "jsx-dom-runtime": "^0.60.0"
+    "jsx-dom-runtime": "^0.60.0",
+    "storeon-velo": "^5.0.0-beta.0"
   },
   "devDependencies": {
-    "parcel": "^2.10.3"
+    "parcel": "^2.10.3",
+    "typescript": "^5.3.3"
   },
   "targets": {
     "default": {
-      "sourceMap": false,
-      "publicUrl": " /audio-player/"
+      "sourceMap": false
     }
   },
   "author": {
