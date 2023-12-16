@@ -1,10 +1,10 @@
-import { useRef, type RefObject } from 'jsx-dom-runtime';
+import { useRef } from 'jsx-dom-runtime';
 
 import { _box, _label, _url, _btn } from './styles.module.css';
 import { connect, dispatch } from '../../store';
 
 export const Input: JSX.FC = () => {
-  const input: RefObject<HTMLInputElement> = useRef();
+  const input = useRef<HTMLInputElement>();
 
   const clickHandler: EventListener = () =>
     dispatch('set/url', input.current.value);
