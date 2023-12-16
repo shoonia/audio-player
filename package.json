@@ -4,10 +4,12 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "start": "parcel",
-    "build": "rm -rf dist .parcel-cache && parcel build",
+    "start": "npm run clean && parcel --no-cache",
+    "build": "npm run clean && parcel build --no-cache",
     "serve": "python3 -m http.server -d dist",
-    "deploy": "npm run build && npx gh-pages -d dist"
+    "deploy": "npm run build && npx gh-pages -d dist",
+    "clean": "rm -rf dist .parcel-cache",
+    "test": "tsc"
   },
   "dependencies": {
     "jsx-dom-runtime": "^0.60.0",
