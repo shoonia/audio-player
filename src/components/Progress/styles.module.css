@@ -1,0 +1,11 @@
+._box {
+  margin: 1em 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.2em;
+}
+
+._progress {
+  width: 100%;
+  margin-top: 1em;
+}

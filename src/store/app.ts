@@ -5,12 +5,14 @@ import type { IEvets, IState } from './types';
 const enum KEY {
   URL = 'audio-player-url',
   TIME = 'audio-player-time',
+  MAX = 'audio-player-max',
 }
 
 export const app: StoreonModule<IState, IEvets> = (store) => {
   store.on('@init', () => {
     return {
       url: localStorage.getItem(KEY.URL) ?? '',
+      max: ~~Number(localStorage.getItem(KEY.MAX)),
       time: ~~Number(localStorage.getItem(KEY.TIME)),
     };
   });
@@ -19,9 +21,11 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
     if (url !== newUrl) {
       localStorage.setItem(KEY.URL, newUrl);
       localStorage.removeItem(KEY.TIME);
+      localStorage.removeItem(KEY.MAX);
 
       return {
         url: newUrl,
+        max: 0,
         time: 0,
       };
     }
@@ -33,6 +37,16 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
 
       return {
         time: newTime,
+      };
+    }
+  });
+
+  store.on('set/max', ({ max }, newMax) => {
+    if (max !== newMax) {
+      localStorage.setItem(KEY.MAX, String(newMax));
+
+      return {
+        max: newMax,
       };
     }
   });
