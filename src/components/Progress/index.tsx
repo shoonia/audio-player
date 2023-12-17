@@ -8,7 +8,7 @@ export const Progress: JSX.FC = () => {
   const s = getState();
 
   const [max, setMax] = useText(toHHMMSS(s.max));
-  const [time, setCurrentTime] = useText(toHHMMSS(s.time));
+  const [time, setTime] = useText(toHHMMSS(s.time));
 
   const ready: RefCallback<HTMLProgressElement> = (progress) => {
     connect('max', (state) => {
@@ -18,7 +18,7 @@ export const Progress: JSX.FC = () => {
 
     connect('time', (state) => {
       progress.value = state.time;
-      setCurrentTime(toHHMMSS(state.time));
+      setTime(toHHMMSS(state.time));
     });
   }
 

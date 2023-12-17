@@ -16,9 +16,19 @@ export const Input: JSX.FC = () => {
   return (
     <div class={_box}>
       <label class={_label} aria-label="audio source">
-        <input ref={input} class={_url} type="url" autocomplete="url" />
+        <input
+          ref={input}
+          type="url"
+          class={_url}
+          autocomplete="url"
+        />
       </label>
-      <button type="button" class={_btn} onclick={clickHandler} aria-label="add">
+      <button
+        type="button"
+        class={_btn}
+        onclick={clickHandler}
+        aria-label="add"
+      >
         +
       </button>
     </div>

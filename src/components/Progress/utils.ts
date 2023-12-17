@@ -1,8 +1,5 @@
 const nn = (n: number): string => (n < 10 ? '0' : '') + n;
 
-export const toHHMMSS = (seconds: number): string => {
-  const hours = ~~(seconds / 3600);
-  const minutes = ~~((seconds % 3600) / 60);
-
-  return `${nn(hours)}:${nn(minutes)}:${nn((seconds % 60))}`;
+export const toHHMMSS = (sec: number): string => {
+  return `${nn(~~(sec / 3600))}:${nn(~~(sec % 3600 / 60))}:${nn(sec % 60)}`;
 }
