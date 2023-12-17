@@ -1,5 +1,8 @@
 ._main {
   margin: auto;
+  max-width: 300px;
+  min-width: 300px;
+  padding: 1em;
 }
 
 ._title {
