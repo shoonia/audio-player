@@ -9,11 +9,13 @@ const enum KEY {
 }
 
 export const app: StoreonModule<IState, IEvets> = (store) => {
+  const url = new URL(location.href);
+
   store.on('@init', () => {
     return {
       url: localStorage.getItem(KEY.URL) ?? '',
       max: ~~Number(localStorage.getItem(KEY.MAX)),
-      time: ~~Number(localStorage.getItem(KEY.TIME)),
+      time: ~~Number(url.searchParams.get('time') ?? localStorage.getItem(KEY.TIME)),
     };
   });
 
@@ -33,7 +35,8 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
 
   store.on('set/time', ({ time }, newTime) => {
     if (time !== newTime) {
-      localStorage.setItem(KEY.TIME, String(newTime));
+      localStorage.setItem(KEY.TIME, '' + newTime);
+      history.replaceState('', '', '?time=' + newTime);
 
       return {
         time: newTime,
@@ -43,7 +46,7 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
 
   store.on('set/max', ({ max }, newMax) => {
     if (max !== newMax) {
-      localStorage.setItem(KEY.MAX, String(newMax));
+      localStorage.setItem(KEY.MAX, '' + newMax);
 
       return {
         max: newMax,
