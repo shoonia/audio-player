@@ -25,7 +25,7 @@ export const Player: JSX.FC = () => {
     });
 
     audio.addEventListener('play', () => {
-      i = setInterval(setTime, 3000);
+      i = setInterval(setTime, 10_000);
       setLabel(LABEL.PAUSE);
     });
 
