@@ -14,7 +14,7 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
 
   store.on('set/url', ({ url }, newUrl) => {
     if (url !== newUrl) {
-      sendAudioData({ url, time: 0 });
+      sendAudioData({ url: newUrl, time: 0 });
       return {
         url: newUrl,
         max: 0,
@@ -25,7 +25,9 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
 
   store.on('set/time', ({ time }, newTime) => {
     if (time !== newTime) {
-      sendAudioData({ time: newTime });
+      if (newTime % 10 === 0) {
+        sendAudioData({ time: newTime });
+      }
       return {
         time: newTime,
       };
