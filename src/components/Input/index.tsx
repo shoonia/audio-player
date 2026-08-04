@@ -6,7 +6,7 @@ import { connect, dispatch } from '../../store';
 export const Input: JSX.FC = () => {
   const input = useRef<HTMLInputElement>();
 
-  const clickHandler: EventListener = () =>
+  const clickHandler: JSX.EventListener = () =>
     dispatch('set/url', input.current.value.trim());
 
   connect('url', (state) => {

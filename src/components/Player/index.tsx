@@ -1,7 +1,7 @@
-import { type RefCallback, useText } from 'jsx-dom-runtime';
+import { useText } from 'jsx-dom-runtime';
 
 import { _btn } from './styles.module.css';
-import { connect, dispatch } from '../../store';
+import { connect, setState } from '../../store';
 
 const enum LABEL {
   PLAY = 'Play',
@@ -11,13 +11,14 @@ const enum LABEL {
 export const Player: JSX.FC = () => {
   const [label, setLabel] = useText(LABEL.PLAY);
 
-  const ready: RefCallback<HTMLButtonElement> = (button) => {
+  const ready: JSX.Ref<HTMLButtonElement> = (button) => {
     const audio = new Audio();
 
     let i: number;
 
-    const setTime = () =>
-      dispatch('set/time', ~~audio.currentTime);
+    const setTime = () => setState({ 
+      time: ~~audio.currentTime,
+    });
 
     button.addEventListener('click', () => {
       if (audio.paused) audio.play();
@@ -38,12 +39,12 @@ export const Player: JSX.FC = () => {
     audio.addEventListener('canplay', () => {
       button.disabled = false;
       setLabel(LABEL.PLAY);
-      dispatch('set/max', ~~audio.duration);
+      setState({  max: ~~audio.duration });
     });
 
     connect('url', (state) => {
+      if (state.url) audio.src = state.url;
       button.disabled = true;
-      audio.src = state.url;
       audio.currentTime = state.time;
     });
   };
