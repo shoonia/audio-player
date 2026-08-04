@@ -20,13 +20,13 @@ export const Input: JSX.FC = () => {
           ref={input}
           type="url"
           class={_url}
-          autocomplete="url"
+          autocomplete
         />
       </label>
       <button
         type="button"
         class={_btn}
-        onclick={clickHandler}
+        on:click={clickHandler}
         aria-label="add"
       >
         +
