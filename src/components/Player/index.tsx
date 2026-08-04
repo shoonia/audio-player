@@ -1,7 +1,7 @@
 import { useText } from 'jsx-dom-runtime';
 
 import { _btn } from './styles.module.css';
-import { connect, setState } from '../../store';
+import { connect, setState, dispatch } from '../../store';
 
 const enum LABEL {
   PLAY = 'Play',
@@ -16,9 +16,8 @@ export const Player: JSX.FC = () => {
 
     let i: number;
 
-    const setTime = () => setState({ 
-      time: ~~audio.currentTime,
-    });
+    const setTime = () =>
+      dispatch('set/time', ~~audio.currentTime);
 
     button.addEventListener('click', () => {
       if (audio.paused) audio.play();
@@ -26,7 +25,7 @@ export const Player: JSX.FC = () => {
     });
 
     audio.addEventListener('play', () => {
-      i = setInterval(setTime, 1000);
+      i = setInterval(setTime, 3000);
       setLabel(LABEL.PAUSE);
     });
 
@@ -39,7 +38,7 @@ export const Player: JSX.FC = () => {
     audio.addEventListener('canplay', () => {
       button.disabled = false;
       setLabel(LABEL.PLAY);
-      setState({  max: ~~audio.duration });
+      setState({ max: ~~audio.duration });
     });
 
     connect('url', (state) => {

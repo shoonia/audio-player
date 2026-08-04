@@ -15,11 +15,19 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
   store.on('set/url', ({ url }, newUrl) => {
     if (url !== newUrl) {
       sendAudioData({ url, time: 0 });
-
       return {
         url: newUrl,
         max: 0,
         time: 0,
+      };
+    }
+  });
+
+  store.on('set/time', ({ time }, newTime) => {
+    if (time !== newTime) {
+      sendAudioData({ time: newTime });
+      return {
+        time: newTime,
       };
     }
   });
