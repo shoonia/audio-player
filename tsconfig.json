@@ -4,7 +4,7 @@
     "sourceMap": false,
     "jsx": "react-jsx",
     "jsxImportSource": "jsx-dom-runtime",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "target": "ESNext",
@@ -14,7 +14,7 @@
     "verbatimModuleSyntax": true,
     "lib": [
       "DOM",
-      "ES2023"
+      "ES2024"
     ]
   },
   "include": [
