@@ -16,8 +16,8 @@ export const Player: JSX.FC = () => {
 
     let i: number;
 
-    const setTime = () =>
-      dispatch('set/time', ~~audio.currentTime);
+    const setTime = (force: boolean) =>
+      dispatch('set/time', { time: ~~audio.currentTime, force });
 
     button.addEventListener('click', () => {
       if (audio.paused) audio.play();
@@ -25,13 +25,13 @@ export const Player: JSX.FC = () => {
     });
 
     audio.addEventListener('play', () => {
-      i = setInterval(setTime, 1000);
+      i = setInterval(setTime, 1000, false);
       setLabel(LABEL.PAUSE);
     });
 
     audio.addEventListener('pause', () => {
       clearInterval(i);
-      setTime();
+      setTime(true);
       setLabel(LABEL.PLAY);
     });
 
