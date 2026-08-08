@@ -1,6 +1,6 @@
 import { useText } from 'jsx-dom-runtime';
 
-import { _btn } from './styles.module.css';
+import s from './styles.module.css';
 import { connect, setState, dispatch } from '../../store';
 
 const enum LABEL {
@@ -11,18 +11,18 @@ const enum LABEL {
 export const Player: JSX.FC = () => {
   const [label, setLabel] = useText(LABEL.PLAY);
 
-  const ready: JSX.Ref<HTMLButtonElement> = (button) => {
-    const audio = new Audio();
+  const audio = new Audio();
 
+  const toggle: JSX.EventListener = () => {
+    if (audio.paused) audio.play();
+    else audio.pause();
+  }
+
+  const ready: JSX.Ref<HTMLButtonElement> = (button) => {
     let i: number;
 
     const setTime = (force: boolean) =>
       dispatch('set/time', { time: ~~audio.currentTime, force });
-
-    button.addEventListener('click', () => {
-      if (audio.paused) audio.play();
-      else audio.pause();
-    });
 
     audio.addEventListener('play', () => {
       i = setInterval(setTime, 1000, false);
@@ -49,7 +49,13 @@ export const Player: JSX.FC = () => {
   };
 
   return (
-    <button ref={ready} class={_btn} type="button" disabled>
+    <button
+      ref={ready}
+      type="button"
+      class={s.btn}
+      on:click={toggle}
+      disabled
+    >
       {label}
     </button>
   );

@@ -1,33 +1,32 @@
-import { useText } from 'jsx-dom-runtime';
+import { signal } from '../utils/signal';
 
-import { _box, _progress } from './styles.module.css';
+import s from './styles.module.css';
 import { connect } from '../../store';
 import { toHHMMSS } from './utils';
 
 export const Progress: JSX.FC = () => {
-  const [max, setMax] = useText(toHHMMSS(0));
-  const [time, setTime] = useText(toHHMMSS(0));
+  const maxText = signal();
+  const timeText = signal();
 
-  const ready: JSX.Ref<HTMLProgressElement> = (progress) => {
-    connect('max', (state) => {
-      progress.max = state.max;
-      setMax(toHHMMSS(state.max));
-    });
+  const maxAttr = signal('0');
+  const valueAttr = signal('0');
 
-    connect('time', (state) => {
-      progress.value = state.time;
-      setTime(toHHMMSS(state.time));
-    });
-  }
+  connect('max', (state) => {
+    maxText.set(toHHMMSS(state.max));
+    maxAttr.set(state.max + '');
+  });
+
+  connect('time', (state) => {
+    timeText.set(toHHMMSS(state.time));
+    valueAttr.set(state.time + '');
+  });
 
   return (
-    <div class={_box}>
-      <strong>{max}</strong> / {time}
+    <div class={s.box}>
+      <strong>{maxText.text()}</strong> / {timeText.text()}
       <progress
-        ref={ready}
-        class={_progress}
-        max={0}
-        value={0}
+        class={s.progress}
+        attributes={[maxAttr.attr('max'), valueAttr.attr('value')]}
       />
     </div>
   );

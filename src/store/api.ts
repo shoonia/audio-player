@@ -8,7 +8,7 @@ const apiUrl = 'https://shoonia.wixsite.com/my-site-5/_functions/audio';
 export const sendAudioData = (data: AudioData): boolean =>
   navigator.sendBeacon(
     apiUrl,
-    new Blob([JSON.stringify(data)], { type: 'application/json' })
+    new Blob([JSON.stringify(data)])
   );
 
 export const getAudioData = async (): Promise<AudioData> => {

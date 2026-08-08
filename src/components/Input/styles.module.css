@@ -1,14 +1,14 @@
-._box {
+.box {
   display: flex;
   align-items: end;
   gap: 1em;
 }
 
-._label {
+.label {
   width: 100%;
 }
 
-._url {
+.url {
   width: -webkit-fill-available;
   padding: 0 1em;
   height: 2.5em;
@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-._btn {
+.btn {
   min-width: 2.5em;
   height: 2.5em;
   display: flex;

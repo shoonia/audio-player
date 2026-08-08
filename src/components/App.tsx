@@ -1,12 +1,12 @@
-import { _main, _title } from './App.module.css';
+import s from './App.module.css';
 import { readyStore } from '../store';
 import { Input } from './Input';
 import { Progress } from './Progress';
 import { Player } from './Player';
 
 export const App: JSX.FC = () => (
-  <main ref={readyStore} class={_main}>
-    <h1 class={_title}>
+  <main ref={readyStore} class={s.main}>
+    <h1 class={s.title}>
       Audio Player
     </h1>
     <Input />
