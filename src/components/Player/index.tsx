@@ -24,15 +24,18 @@ export const Player: JSX.FC = () => {
     const setTime = (force: boolean) =>
       dispatch('set/time', { time: ~~audio.currentTime, force });
 
-    audio.addEventListener('play', () => {
-      i = setInterval(setTime, 1000, false);
-      setLabel(LABEL.PAUSE);
-    });
-
-    audio.addEventListener('pause', () => {
+    const pause = () => {
       clearInterval(i);
       setTime(true);
       setLabel(LABEL.PLAY);
+    }
+
+    audio.addEventListener('pause', pause);
+    audio.addEventListener('ended', pause);
+
+    audio.addEventListener('play', () => {
+      i = setInterval(setTime, 1000, false);
+      setLabel(LABEL.PAUSE);
     });
 
     audio.addEventListener('canplay', () => {

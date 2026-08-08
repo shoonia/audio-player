@@ -1,26 +1,27 @@
+import { useRef } from 'jsx-dom-runtime';
+
 import s from './styles.module.css';
 import { connect, dispatch } from '../../store';
-import { signal } from '../utils/signal';
 
 export const Input: JSX.FC = () => {
-  const input = signal();
+  const input = useRef<HTMLInputElement>();
 
   const clickHandler: JSX.EventListener = () =>
-    dispatch('set/url', input.value.trim());
+    dispatch('set/url', input.current.value.trim());
 
   connect('url', (state) => {
-    input.set(state.url);
+    input.current.value = state.url;
   });
 
   return (
     <div class={s.box}>
       <label class={s.label} aria-label="audio source">
         <input
+          ref={input}
           type="url"
           name="url"
           class={s.url}
           autocomplete="on"
-          attributes={input.attr('value')}
         />
       </label>
       <button
