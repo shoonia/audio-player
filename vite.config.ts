@@ -1,4 +1,5 @@
 import { defineConfig, UserConfig } from 'vite';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 import babel from '@rolldown/plugin-babel';
 import generateScopedName from 'mini-css-class-name/postcss-modules';
 
@@ -42,6 +43,7 @@ export default defineConfig(({ mode }): UserConfig => {
         sourceMap: isDev,
         presets: ['jsx-dom-runtime/babel-preset'],
       }),
+      viteSingleFile(),
     ],
   };
 });

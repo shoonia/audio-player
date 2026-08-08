@@ -23,7 +23,8 @@
     "postcss-modules": "^9.0.1",
     "terser": "^5.49.0",
     "typescript": "^7.0.2",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vite-plugin-singlefile": "^2.3.3"
   },
   "author": {
     "name": "Alexander Zaytsev",
