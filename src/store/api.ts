@@ -1,4 +1,4 @@
-interface AudioData {
+export interface AudioData {
   readonly time: number;
   readonly url?: string;
 }

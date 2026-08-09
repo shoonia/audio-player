@@ -6,8 +6,6 @@ export interface IState {
 
 export interface IEvets {
   'set/url': string;
-  'set/time': {
-    time: number;
-    force: boolean;
-  };
+  'set/time': readonly [time: number, force: boolean];
+  'set/max': number;
 }

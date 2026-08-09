@@ -2,6 +2,7 @@ import type { StoreonModule } from 'storeon-velo';
 import { sendAudioData, getAudioData } from './api';
 
 import type { IEvets, IState } from './types';
+import type { AudioData } from './api';
 
 export const app: StoreonModule<IState, IEvets> = (store) => {
   store.on('@init', () => {
@@ -12,8 +13,8 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
     };
   });
 
-  store.on('set/url', (s, url) => {
-    if (s.url !== url) {
+  store.on('set/url', (state, url) => {
+    if (state.url !== url) {
       sendAudioData({ url, time: 0 });
       return {
         url,
@@ -23,12 +24,18 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
     }
   });
 
-  store.on('set/time', (s, { time, force }) => {
-    if (force || s.time !== time && time % 10 === 0) {
-      sendAudioData({ time });
+  store.on('set/time', (state, [time, force]) => {
+    const data: AudioData = { time: ~~time };
+
+    if (force || data.time % 10 === 0 && state.time !== data.time) {
+      sendAudioData(data);
     }
 
-    return { time };
+    return data;
+  });
+
+  store.on('set/max', (_, max) => {
+    return { max: ~~max };
   });
 
   getAudioData().then(store.set);

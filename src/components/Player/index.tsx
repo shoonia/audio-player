@@ -16,13 +16,12 @@ export const Player: JSX.FC = () => {
   const toggle: JSX.EventListener = () => {
     if (audio.paused) audio.play();
     else audio.pause();
-  }
+  };
 
-  const setTime = (force: boolean, t = 0) => {
-    const current = ~~(audio.currentTime += t);
-    const duration = ~~audio.duration;
-    const time = current < 0 ? 0 : current > duration ? duration : current;
-    dispatch('set/time', { time, force });
+  const seekBy = (delta: number) => {
+    const time = audio.currentTime + delta;
+    audio.currentTime = time;
+    dispatch('set/time', [time, true]);
   };
 
   const ready: JSX.Ref<HTMLButtonElement> = (button) => {
@@ -30,22 +29,27 @@ export const Player: JSX.FC = () => {
 
     const pause = () => {
       clearInterval(i);
-      setTime(true);
+      dispatch('set/time', [audio.currentTime, true]);
       setLabel(LABEL.PLAY);
     };
+
+    const tiker = () =>
+      dispatch('set/time', [audio.currentTime, false]);
 
     audio.addEventListener('pause', pause);
     audio.addEventListener('ended', pause);
 
     audio.addEventListener('play', () => {
-      i = setInterval(setTime, 1000, false);
+      i = setInterval(tiker, 1000);
       setLabel(LABEL.PAUSE);
     });
 
     audio.addEventListener('canplay', () => {
+      if (audio.seeking) return;
+      if (audio.paused) setLabel(LABEL.PLAY);
+
       button.disabled = false;
-      setLabel(LABEL.PLAY);
-      setState({ max: ~~audio.duration });
+      dispatch('set/max', audio.duration);
     });
 
     connect('url', (state) => {
@@ -67,11 +71,11 @@ export const Player: JSX.FC = () => {
         {label}
       </button>
       <div class={s.controls}>
-        <button type="button" class={s.btn} on:click={() => setTime(true, -10)}>
-          - 10s
+        <button type="button" class={s.btn} aria-label="Rewind 10 seconds" on:click={() => seekBy(-10)}>
+          -10s
         </button>
-        <button type="button" class={s.btn} on:click={() => setTime(true, 10)}>
-          + 10s
+        <button type="button" class={s.btn} aria-label="Forward 10 seconds" on:click={() => seekBy(10)}>
+          +10s
         </button>
       </div>
     </div>
