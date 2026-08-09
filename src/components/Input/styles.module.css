@@ -25,3 +25,7 @@
   justify-content: center;
   font-weight: bold;
 }
+
+.summary, .details {
+  margin: 1em 0;
+}

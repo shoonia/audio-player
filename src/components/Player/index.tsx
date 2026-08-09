@@ -18,17 +18,21 @@ export const Player: JSX.FC = () => {
     else audio.pause();
   }
 
+  const setTime = (force: boolean, t = 0) => {
+    const current = ~~(audio.currentTime += t);
+    const duration = ~~audio.duration;
+    const time = current < 0 ? 0 : current > duration ? duration : current;
+    dispatch('set/time', { time, force });
+  };
+
   const ready: JSX.Ref<HTMLButtonElement> = (button) => {
     let i: number;
-
-    const setTime = (force: boolean) =>
-      dispatch('set/time', { time: ~~audio.currentTime, force });
 
     const pause = () => {
       clearInterval(i);
       setTime(true);
       setLabel(LABEL.PLAY);
-    }
+    };
 
     audio.addEventListener('pause', pause);
     audio.addEventListener('ended', pause);
@@ -52,14 +56,24 @@ export const Player: JSX.FC = () => {
   };
 
   return (
-    <button
-      ref={ready}
-      type="button"
-      class={s.btn}
-      on:click={toggle}
-      disabled
-    >
-      {label}
-    </button>
+    <div class={s.player}>
+      <button
+        ref={ready}
+        type="button"
+        class={s.btn}
+        on:click={toggle}
+        disabled
+      >
+        {label}
+      </button>
+      <div class={s.controls}>
+        <button type="button" class={s.btn} on:click={() => setTime(true, -10)}>
+          - 10s
+        </button>
+        <button type="button" class={s.btn} on:click={() => setTime(true, 10)}>
+          + 10s
+        </button>
+      </div>
+    </div>
   );
 }

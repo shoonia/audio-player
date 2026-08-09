@@ -9,8 +9,8 @@ export const App: JSX.FC = () => (
     <h1 class={s.title}>
       Audio Player
     </h1>
-    <Input />
     <Progress />
     <Player />
+    <Input />
   </main>
 );
