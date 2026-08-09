@@ -41,7 +41,7 @@ export default defineConfig(({ mode }): UserConfig => {
       modulePreload: false,
       reportCompressedSize: true,
       rolldownOptions: {
-        treeshake: false,
+        treeshake: isProd,
       },
     },
     css: {
