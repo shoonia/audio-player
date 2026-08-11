@@ -5,12 +5,17 @@ import type { IEvets, IState } from './types';
 import type { AudioData } from './api';
 
 export const app: StoreonModule<IState, IEvets> = (store) => {
+
   store.on('@init', () => {
     return {
       url: '',
       max: 0,
       time: 0,
     };
+  });
+
+  store.on('@ready', () => {
+    getAudioData().then(store.set);
   });
 
   store.on('set/url', (state, url) => {
@@ -37,6 +42,4 @@ export const app: StoreonModule<IState, IEvets> = (store) => {
   store.on('set/max', (_, max) => {
     return { max: ~~max };
   });
-
-  getAudioData().then(store.set);
 }

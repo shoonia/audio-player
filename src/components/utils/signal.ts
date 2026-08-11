@@ -1,5 +1,3 @@
-import { useAttr, useText } from 'jsx-dom-runtime';
-
 interface Signal {
   readonly value: string;
   set(val: string): void;
@@ -7,25 +5,34 @@ interface Signal {
   text(): Text;
 }
 
+type Sub = (val: string) => void;
+
 export const signal = (value = ''): Signal => {
-  const subs = new Set<(val: string) => void>();
+  const subs: Sub[] = [];
 
   return {
     get value() {
       return value;
     },
     set(val) {
-      value = val;
-      subs.forEach(update => update(val));
+      if (val !== value) {
+        value = val;
+        for (let sub of subs) sub(value);
+      }
     },
     attr(name) {
-      const [a, update] = useAttr(name, value);
-      subs.add(update);
+      const a = document.createAttribute(name);
+      a.value = value;
+      subs.push((val) => {
+        a.value = val;
+      });
       return a;
     },
     text() {
-      const [t, update] = useText(value);
-      subs.add(update);
+      const t = new Text(value);
+      subs.push((val) => {
+        t.nodeValue = val;
+      });
       return t;
     },
   };
