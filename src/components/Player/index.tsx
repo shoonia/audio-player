@@ -1,7 +1,7 @@
-import { useText } from 'jsx-dom-runtime';
+import { signal } from 'jsx-dom-runtime';
 
 import s from './styles.module.css';
-import { connect, setState, dispatch } from '../../store';
+import { connect, dispatch } from '../../store';
 
 const enum LABEL {
   PLAY = 'Play',
@@ -9,7 +9,8 @@ const enum LABEL {
 }
 
 export const Player: JSX.FC = () => {
-  const [label, setLabel] = useText(LABEL.PLAY);
+  const label = signal(LABEL.PLAY);
+  const disabled = signal(true);
 
   const audio = new Audio();
 
@@ -24,49 +25,46 @@ export const Player: JSX.FC = () => {
     dispatch('set/time', [time, true]);
   };
 
-  const ready: JSX.Ref<HTMLButtonElement> = (button) => {
-    let i: number;
+  let i: number;
 
-    const pause = () => {
-      clearInterval(i);
-      dispatch('set/time', [audio.currentTime, true]);
-      setLabel(LABEL.PLAY);
-    };
-
-    const tiker = () =>
-      dispatch('set/time', [audio.currentTime, false]);
-
-    audio.addEventListener('pause', pause);
-    audio.addEventListener('ended', pause);
-
-    audio.addEventListener('play', () => {
-      i = setInterval(tiker, 1000);
-      setLabel(LABEL.PAUSE);
-    });
-
-    audio.addEventListener('canplay', () => {
-      if (audio.seeking) return;
-      if (audio.paused) setLabel(LABEL.PLAY);
-
-      button.disabled = false;
-      dispatch('set/max', audio.duration);
-    });
-
-    connect('url', (state) => {
-      if (state.url) audio.src = state.url;
-      button.disabled = true;
-      audio.currentTime = state.time;
-    });
+  const pause = () => {
+    clearInterval(i);
+    dispatch('set/time', [audio.currentTime, true]);
+    label.set(LABEL.PLAY);
   };
+
+  const tiker = () =>
+    dispatch('set/time', [audio.currentTime, false]);
+
+  audio.addEventListener('pause', pause);
+  audio.addEventListener('ended', pause);
+
+  audio.addEventListener('play', () => {
+    i = setInterval(tiker, 1000);
+    label.set(LABEL.PAUSE);
+  });
+
+  audio.addEventListener('canplay', () => {
+    if (audio.seeking) return;
+    if (audio.paused) label.set(LABEL.PLAY);
+
+    disabled.set(false);
+    dispatch('set/max', audio.duration);
+  });
+
+  connect('url', (state) => {
+    if (state.url) audio.src = state.url;
+    disabled.set(true);
+    audio.currentTime = state.time;
+  });
 
   return (
     <div class={s.player}>
       <button
-        ref={ready}
         type="button"
         class={s.btn}
         on:click={toggle}
-        disabled
+        prop:disabled={disabled}
       >
         {label}
       </button>

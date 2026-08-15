@@ -2,7 +2,7 @@
   "name": "audio-player",
   "type": "module",
   "version": "1.0.0",
-  "packageManager": "yarn@4.18.0",
+  "packageManager": "^npm@12.0.0",
   "scripts": {
     "start": "vite",
     "build": "NODE_ENV=production vite build",
@@ -12,7 +12,7 @@
     "test": "tsc"
   },
   "dependencies": {
-    "jsx-dom-runtime": "^0.81.0",
+    "jsx-dom-runtime": "^0.84.0",
     "storeon-velo": "^5.0.0"
   },
   "devDependencies": {

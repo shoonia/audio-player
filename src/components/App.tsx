@@ -5,7 +5,7 @@ import { Progress } from './Progress';
 import { Player } from './Player';
 import { Reload } from './Reload';
 
-export const App: JSX.FC = () => (
+export const App: JSX.FC = () =>
   <div class={s.main} ref={readyStore}>
     <Reload />
     <main>
@@ -16,5 +16,4 @@ export const App: JSX.FC = () => (
       <Player />
       <Input />
     </main>
-  </div>
-);
+  </div>;
